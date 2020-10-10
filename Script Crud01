@@ -1,0 +1,77 @@
+//Jika tombol simpan di klik
+if (isset($_POST['bsimpan'])) {
+	//Pengujian apakah data akan di edit atau simpan baru
+	if ($_GET['hal'] == "edit") {
+		//data akan di edit
+		$edit = mysqli_query($koneksi, "UPDATE tmhs set
+											 	nim = '$_POST[tnim]',
+											 	nama = '$_POST[tnama]',
+												alamat = '$_POST[talamat]',
+											 	prodi = '$_POST[tprodi]'
+											 WHERE id_mhs = '$_GET[id]'
+										 ");
+		if ($edit) //jika edit sukses [Menggunakan js]
+		{
+			echo "<script>	
+						alert('Edit Data Sukses!');
+						document.location='index.php';
+				</script>";
+		} else {
+			echo "<script>	
+						alert('GAGAL Edit Data!');
+						document.location='index.php';
+				</script>";
+		}
+	} 
+  else 
+  {
+		//data akan di simpan baru
+		$simpan = mysqli_query($koneksi, "INSERT INTO tmhs (nim, nama, alamat, prodi)
+										  VALUES ('$_POST[tnim]', 
+										  		 '$_POST[tnama]', 
+										  		 '$_POST[talamat]', 
+										  		 '$_POST[tprodi]')
+										 ");
+		if ($simpan) //jika simpan sukses [Menggunakan js]
+		{
+			echo "<script>	
+						alert('Simpan Data Sukses!');
+						document.location='index.php';
+				</script>";
+		} else {
+			echo "<script>	
+						alert('GAGAL Simpan Data!');
+						document.location='index.php';
+				</script>";
+		}
+	}
+}
+
+
+
+//pengujian jika tombol edit atau hapus di klik
+if (isset($_GET['hal'])) {
+	//Pengujian jika edit data
+	if ($_GET['hal'] == "edit") {
+		//Tampilkan Data yang akan diedit
+		$tampil = mysqli_query($koneksi, "SELECT * FROM tmhs WHERE id_mhs = '$_GET[id]' ");
+		$data = mysqli_fetch_array($tampil);
+		if ($data) {
+			//Jika data ditemukan, maka data ditampung ke dalam variabel dan di panggi untk di tampilkan
+			$vnim = $data['nim'];
+			$vnama = $data['nama'];
+			$valamat = $data['alamat'];
+			$vprodi = $data['prodi'];
+		}
+	} 
+  else if ($_GET['hal'] == "hapus") {
+		//Persiapan hapus data
+		$hapus = mysqli_query($koneksi, "DELETE FROM tmhs WHERE id_mhs = '$_GET[id]' ");
+		if ($hapus) {
+			echo "<script>
+						alert('Hapus Data Suksess!!');
+						document.location='index.php';
+				     </script>";
+		}
+	}
+}
