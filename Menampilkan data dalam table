@@ -1,0 +1,46 @@
+Buak Koneksi ke DB
+
+<!--Awal Card Table-->
+		<div class="card mt-3">
+			<div class="card-header bg-success text-white">
+				Daftar Mahasiswa
+			</div>
+			<div class="card-body">
+				<table id="example" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>No.</th>
+							<th>Nim</th>
+							<th>Nama</th>
+							<th>Alamat</th>
+							<th>Prodi</th>
+							<th>Aksi</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+						$no = 1;
+						$tampil = mysqli_query($koneksi, "SELECT * from tmhs order by id_mhs desc");
+						while ($data = mysqli_fetch_array($tampil)) : //awal Looping While
+
+						?>
+
+							<tr>
+								<td><?= $no++; ?></td>
+								<td><?= $data['nim'] ?></td>
+								<td><?= $data['nama'] ?></td>
+								<td><?= $data['alamat'] ?></td>
+								<td><?= $data['prodi'] ?></td>
+								<td>
+									<a href="index.php?hal=edit&id=<?= $data['id_mhs'] ?>" class="btn btn-warning">Edit</a>
+									<a href="index.php?hal=hapus&id=<?= $data['id_mhs'] ?>" onclick="return confirm('Apakah anda yakin ingin menghapus data ini ?')" class="btn btn-danger">Hapus</a>
+								</td>
+							</tr>
+
+						<?php endwhile; //Penutup Looping While 
+						?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!--Akhir Card Table -->
